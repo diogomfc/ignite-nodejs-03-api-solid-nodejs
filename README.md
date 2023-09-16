@@ -1,6 +1,8 @@
-# App
+# GymPass style app.
+Desenvolvimento de API Node.js com Princípios SOLID e Recursos Avançados
 
-GymPass style app.
+# Descrição: 
+Neste projeto, estarei trabalhando no desenvolvimento de uma API Node.js voltada para a gestão de check-ins em academias. Ao longo desse processo, terei a oportunidade de aprofundar meus conhecimentos nos princípios SOLID, explorar padrões de design, adquirir experiência na configuração de banco de dados com Docker, implementar sistemas de autenticação utilizando JWT e Refresh Token, e entender melhor o conceito de RBAC (Role-Based Access Control), entre outros tópicos avançados relacionados ao desenvolvimento de APIs modernas. Será uma jornada de aprendizado enriquecedora e prática.
 
 ## RFs (Requisitos funcionais)
 
