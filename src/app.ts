@@ -3,3 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 export const app = fastify();
 
+export const prisma = new PrismaClient();
+
+prisma.user.findMany().then(console.log);
+
