@@ -1,19 +1,27 @@
 
 import { RegisterUseCase } from '@/use-cases/register';
 //import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository';
-import {expect, describe, it} from 'vitest';
+import {expect, describe, it, beforeEach} from 'vitest';
 import { compare } from 'bcryptjs';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 
+
+let usersRepository: InMemoryUsersRepository;
+let sut: RegisterUseCase;
+
+
 describe('Register Use Case', () => {
+
+    beforeEach(() => {
+        usersRepository = new InMemoryUsersRepository();
+        sut = new RegisterUseCase(usersRepository);
+    }); 
+
+
     //deve ser hash assim que ele se cadastrar na aplicação.
     it('should hash user password upon registration', async () => {
-        //const prismaUsersRepository = new PrismaUsersRepository();
-        const usersRepository = new InMemoryUsersRepository();
-        const registerUseCase = new RegisterUseCase(usersRepository);
-
-        const {user} = await registerUseCase.execute({
+        const {user} = await sut.execute({
             name: 'John Doe',
             email: 'dgall@gmail.com',
             password: '123456',
@@ -26,20 +34,16 @@ describe('Register Use Case', () => {
     });
     //Não deve ser possível cadastrar o email mais de duas vezes
     it('should not register an already registered email', async () => {
-        //const prismaUsersRepository = new PrismaUsersRepository();
-        const usersRepository = new InMemoryUsersRepository();
-        const registerUseCase = new RegisterUseCase(usersRepository);
-
         const email = 'dev@prisma.com';
 
-        await registerUseCase.execute({
+        await sut.execute({
             name: 'John Doe',
             email,
             password: '123456',
         });
 
         await expect(async () => {
-            await registerUseCase.execute({
+            await sut.execute({
                 name: 'John Doe',
                 email,
                 password: '123456',
@@ -50,10 +54,7 @@ describe('Register Use Case', () => {
 
     //Deve cadastrar um usuário
     it('should register a user', async () => {
-        const usersRepository = new InMemoryUsersRepository();
-        const registerUseCase = new RegisterUseCase(usersRepository);
-
-        const {user} = await registerUseCase.execute({
+        const {user} = await sut.execute({
             name: 'John Doe',
             email: 'john@example',
             password: '123456',

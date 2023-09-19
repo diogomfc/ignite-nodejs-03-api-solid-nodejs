@@ -1,15 +1,26 @@
 
-import {expect, describe, it} from 'vitest';
+import {expect, describe, it, beforeEach} from 'vitest';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from './authenticate';
 import { hash } from 'bcryptjs';
 import { InvalidCredentialError } from './errors/invalid-credentials-error';
 
+let usersRepository: InMemoryUsersRepository;
+let sut: AuthenticateUseCase;
+
 describe('Authenticate Use Case', () => {
+
+    beforeEach(() => {
+        usersRepository = new InMemoryUsersRepository();
+        sut = new AuthenticateUseCase(usersRepository);
+    });
+
+
     //deve verificar se o usuário está autenticado
     it('should be able to authenticate', async () => {
-        const usersRepository = new InMemoryUsersRepository();
-        const sut = new AuthenticateUseCase(usersRepository);
+   
+        // const usersRepository = new InMemoryUsersRepository();
+        // const sut = new AuthenticateUseCase(usersRepository);
 
         await usersRepository.create({
             name: 'John Doe',
@@ -29,8 +40,9 @@ describe('Authenticate Use Case', () => {
 
     //não deve ser possível autenticar um email inexistente
     it('should not be able to authenticate a non-existent user', async () => {
-        const usersRepository = new InMemoryUsersRepository();
-        const sut = new AuthenticateUseCase(usersRepository);
+        
+        // const usersRepository = new InMemoryUsersRepository();
+        // const sut = new AuthenticateUseCase(usersRepository);
 
         expect(async () => {
             await sut.execute({
@@ -42,8 +54,8 @@ describe('Authenticate Use Case', () => {
 
     //não deve ser possível autenticar com senha incorreta
     it('should not be able to authenticate with incorrect password', async () => {
-        const usersRepository = new InMemoryUsersRepository();
-        const sut = new AuthenticateUseCase(usersRepository);
+        // const usersRepository = new InMemoryUsersRepository();
+        // const sut = new AuthenticateUseCase(usersRepository);
 
         await usersRepository.create({
             name: 'John Doe',
